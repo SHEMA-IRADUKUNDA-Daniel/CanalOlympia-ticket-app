@@ -1,5 +1,6 @@
 import { View, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
 export const NavigationBar = () => {
@@ -25,13 +26,13 @@ export const NavigationBar = () => {
       </TouchableOpacity>
 
       <TouchableOpacity className="bg-white  p-2 rounded-full">
-        <MaterialCommunityIcons name="ticket" size={24} color="#BC002D" />
+        <Ionicons name="ticket" size={24} color="#BC002D" />
       </TouchableOpacity>
       <TouchableOpacity
         className="bg-white  p-2 rounded-full"
         onPress={() => router.push("/profile")}
       >
-        <MaterialCommunityIcons name="account" size={24} color="#BC002D" />
+        <MaterialIcons name="account-circle" size={24} color="#BC002D" />
       </TouchableOpacity>
     </View>
   );
