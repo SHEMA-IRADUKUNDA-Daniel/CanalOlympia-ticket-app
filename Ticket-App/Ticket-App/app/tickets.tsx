@@ -26,15 +26,15 @@ const Tickets = () => {
       <View className=" flex-1 px-3">
         <View className="flex-row justify-between px-3 ">
           <TouchableOpacity>
-            <Text className="text-white pb-3 border-b-2 border-gray-500">
+            <Text className="text-white pb-3 border-b-2 border-gray-500 font-roboto text-sm">
               Upcoming
             </Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text className="text-white">Reserved</Text>
+            <Text className="text-white font-roboto text-sm">Reserved</Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text className="text-white">Past</Text>
+            <Text className="text-white font-roboto text-sm">Past</Text>
           </TouchableOpacity>
         </View>
         <LinearGradient
@@ -45,12 +45,42 @@ const Tickets = () => {
         >
           <View className="flex-row p-5 justify-between">
             <View>
-              <Text className="text-white mb-2">Avatar: Fire and ash</Text>
-              <Text className="text-gray-300">
+              <Text className="text-white mb-2 font-poppins-bold text-xs">
+                Avatar: Fire and ash
+              </Text>
+              <Text className="text-gray-300 font-roboto-medium text-xs">
                 Thursday 18,December 2025 8:00 PM
               </Text>
             </View>
-            <Feather name="more-vertical" size={24} color="white" />
+            <TouchableOpacity>
+              <Feather name="more-vertical" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+          <View className="flex-row px-5 mt-5 justify-between w-9/12">
+            <View className="flex-1 justify-start items-start">
+              <Text className="text-gray-300 font-poppins-semibold text-xs">
+                Tickets
+              </Text>
+              <Text className="text-white font-poppins-semibold text-xs">
+                2
+              </Text>
+            </View>
+            <View className="flex-col justify-start  items-center">
+              <Text className="text-gray-300 font-poppins-semibold text-xs">
+                Seat
+              </Text>
+              <Text className="text-white font-poppins-semibold text-xs ml-10 mr-9">
+                D7,D8
+              </Text>
+            </View>
+            <View>
+              <Text className="text-gray-300 font-poppins-semibold text-xs">
+                Total
+              </Text>
+              <Text className="text-white font-poppins-semibold text-xs">
+                12,000 Rwf
+              </Text>
+            </View>
           </View>
         </LinearGradient>
       </View>
