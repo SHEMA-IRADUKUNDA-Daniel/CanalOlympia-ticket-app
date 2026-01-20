@@ -25,7 +25,10 @@ export const NavigationBar = () => {
         ></MaterialCommunityIcons>
       </TouchableOpacity>
 
-      <TouchableOpacity className="bg-white  p-2 rounded-full">
+      <TouchableOpacity
+        className="bg-white  p-2 rounded-full"
+        onPress={() => router.push("/tickets")}
+      >
         <Ionicons name="ticket" size={24} color="#BC002D" />
       </TouchableOpacity>
       <TouchableOpacity
