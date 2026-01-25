@@ -1,10 +1,12 @@
 import { View, Switch, StatusBar, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
 import { NavigationBar } from "@/components/navBar";
 import { Feather } from "@expo/vector-icons";
+import { useState } from "react";
 
 const Tickets = () => {
+  const [showDeleteMenu, setShowDeleteMenu] = useState(false);
+
   return (
     <View className="flex-1 bg-black">
       <StatusBar barStyle="light-content" />
@@ -52,10 +54,19 @@ const Tickets = () => {
                 Thursday 18,December 2025 8:00 PM
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setShowDeleteMenu(!showDeleteMenu)}
+            >
               <Feather name="more-vertical" size={24} color="white" />
             </TouchableOpacity>
           </View>
+          {showDeleteMenu && (
+            <TouchableOpacity className="absolute top-12 right-0 bg-primary/50 p-4 rounded-full transition-all shadow-lg shadow-black z-10">
+              <Text className="text-white font-poppins-bold text-xs ">
+                Delete ticket
+              </Text>
+            </TouchableOpacity>
+          )}
           <View className="flex-row px-5 mt-5 justify-between w-9/12">
             <View className="flex-1 justify-start items-start">
               <Text className="text-gray-300 font-poppins-semibold text-xs">
