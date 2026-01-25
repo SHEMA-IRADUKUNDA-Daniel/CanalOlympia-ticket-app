@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const Tickets = () => {
   const [showDeleteMenu, setShowDeleteMenu] = useState(false);
+  const [activeTab, setActiveTab] = useState("upcoming");
 
   return (
     <View className="flex-1 bg-black">
@@ -21,23 +22,22 @@ const Tickets = () => {
         locations={[0, 0.4, 0.7, 1]}
         className="absolute top-0 left-0 right-0 bottom-0"
       />
-
       <Text className=" font-poppins-bold text-xl pt-20 mb-10  text-white text-center">
         My Tickets
       </Text>
       <View className=" flex-1 px-3">
         <View className="flex-row justify-between px-3 ">
-          <TouchableOpacity>
-            <Text className="text-white pb-3 border-b-2 border-gray-500 font-roboto text-sm">
-              Upcoming
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text className="text-white font-roboto text-sm">Reserved</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text className="text-white font-roboto text-sm">Past</Text>
-          </TouchableOpacity>
+          {["upcoming", "reserved", "past"].map((tab) => (
+            <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+              <Text
+                className={`text-white pb-3 border-b-2  font-roboto text-sm ${
+                  activeTab === tab ? "border-b-2 border-gray-500" : ""
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
         <LinearGradient
           colors={["#000", "#BC002D"]}
