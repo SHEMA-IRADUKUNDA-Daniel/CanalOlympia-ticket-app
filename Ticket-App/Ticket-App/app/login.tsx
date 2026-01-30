@@ -30,7 +30,7 @@ const Login = () => {
 
   const handleLogin = () => {
     console.log("Profile updated:", formData);
-    router.push("/profile");
+    router.push("/");
   };
 
   const googleSvg = `
@@ -146,7 +146,12 @@ const Login = () => {
                 Don&apos;t have an account?{" "}
               </Text>
               <TouchableOpacity>
-                <Text className="text-blue-400">Sign up</Text>
+                <Text
+                  className="text-blue-400"
+                  onPress={() => router.push("/signup")}
+                >
+                  Sign up
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity className="flex-row justify-center items-center  bg-white rounded-full px-4 py-5 mb-4">
