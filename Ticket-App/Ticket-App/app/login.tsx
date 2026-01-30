@@ -30,7 +30,7 @@ const Login = () => {
 
   const handleLogin = () => {
     console.log("Profile updated:", formData);
-    router.push("/profile");
+    router.push("/");
   };
 
   const googleSvg = `
@@ -80,7 +80,7 @@ const Login = () => {
           <View className="px-6 ">
             <View className="flex-row items-center bg-white rounded-full px-6 py-4 mb-4 ">
               <TextInput
-                className="flex-1 text-white font-poppins-semibold text-sm"
+                className="flex-1 text-black font-poppins-semibold text-sm"
                 placeholder="Email..."
                 placeholderTextColor="#767577"
                 keyboardType="email-address"
@@ -99,10 +99,10 @@ const Login = () => {
             </View>
             <View className="flex-row items-center bg-white rounded-full px-6 py-4 mb-4">
               <TextInput
-                className="flex-1 text-white font-poppins-semibold text-sm"
+                className="flex-1 text-black font-poppins-semibold text-sm"
                 placeholder="Password..."
                 placeholderTextColor="#767577"
-                keyboardType="phone-pad"
+                keyboardType="default"
                 value={formData.password}
                 onChangeText={(text) =>
                   setFormData({ ...formData, password: text })
@@ -146,7 +146,12 @@ const Login = () => {
                 Don&apos;t have an account?{" "}
               </Text>
               <TouchableOpacity>
-                <Text className="text-blue-400">Sign up</Text>
+                <Text
+                  className="text-blue-400"
+                  onPress={() => router.push("/signup")}
+                >
+                  Sign up
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity className="flex-row justify-center items-center  bg-white rounded-full px-4 py-5 mb-4">
