@@ -92,7 +92,7 @@ const Login = () => {
               />
               <MaterialCommunityIcons
                 name="email"
-                size={16}
+                size={18}
                 color="#767577"
                 style={{ marginRight: 10 }}
               />
