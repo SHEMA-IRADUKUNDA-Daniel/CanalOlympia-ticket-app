@@ -1,13 +1,59 @@
-import { View, StatusBar, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationBar } from "@/components/navBar";
-
 import { useState } from "react";
 import Ticket from "@/components/ticket";
-import { Ionicons } from "@expo/vector-icons";
+import EmptyState from "@/components/empytStateTicket";
+import { TicketType } from "@/interface";
+
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental?.(true);
+}
+const TABS = ["upcoming", "reserved", "past"];
 
 const Tickets = () => {
   const [activeTab, setActiveTab] = useState("upcoming");
+  const [upcomingTickets, setUpcomingTickets] = useState<TicketType[]>([
+    { id: "1" },
+  ]);
+  const handleDeleteTicket = (id: string) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setTimeout(() => {
+      setUpcomingTickets((prev) => prev.filter((ticket) => ticket.id !== id));
+    }, 300);
+  };
+  const renderContent = () => {
+    if (activeTab === "upcoming") {
+      return upcomingTickets.length ? (
+        <FlatList
+          data={upcomingTickets}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={(item) => (
+            <Ticket onDelete={() => handleDeleteTicket(item.item.id)} />
+          )}
+          contentContainerStyle={{ paddingTop: 16, paddingBottom: 120 }}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <EmptyState text="You don't have any upcoming tickets yet." />
+      );
+    }
+
+    if (activeTab === "reserved") {
+      return <EmptyState text="You don't have any reserved tickets yet." />;
+    }
+
+    return <EmptyState text="You don't have any past tickets yet." />;
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -26,43 +72,34 @@ const Tickets = () => {
       <Text className=" font-poppins-bold text-xl pt-20 mb-10  text-white text-center">
         My Tickets
       </Text>
-      <View className=" flex-1 px-3">
-        <View className="flex-row justify-between px-3 ">
-          {["upcoming", "reserved", "past"].map((tab) => (
-            <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+      <View className="flex-row justify-around px-4 ">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab;
+
+          return (
+            <TouchableOpacity
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              className="py-3 flex-1 items-center"
+              activeOpacity={0.8}
+            >
               <Text
-                className={`text-white pb-3 border-b-2  font-roboto text-sm ${
-                  activeTab === tab ? "border-b-2 border-gray-500" : ""
+                className={`font-roboto-bold text-sm ${
+                  isActive ? "text-white" : "text-white/60"
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        {activeTab === "upcoming" && (
-          <View className="mt-6 space-y-4">
-            <Ticket />
-          </View>
-        )}
 
-        {activeTab === "reserved" && (
-          <View className="mt-20 space-y-4 items-center justify-center">
-            <Ionicons name="ticket" size={65} color="white" />
-            <Text className="font-poppins-bold text-sm text-white/70">
-              You don&apos;t have any reserved tickets yet.
-            </Text>
-          </View>
-        )}
-        {activeTab === "past" && (
-          <View className="mt-20 space-y-4 items-center justify-center">
-            <Ionicons name="ticket" size={65} color="white" />
-            <Text className="font-poppins-bold text-sm text-white/70">
-              You don&apos;t have any past tickets yet.
-            </Text>
-          </View>
-        )}
+              {isActive && (
+                <View className="mt-2 h-0.5 w-8 bg-gray-400 rounded-full" />
+              )}
+            </TouchableOpacity>
+          );
+        })}
       </View>
+      <View className="flex-1 px-3">{renderContent()}</View>
+
       <View className="flex-1 justify-end ">
         <NavigationBar />
       </View>

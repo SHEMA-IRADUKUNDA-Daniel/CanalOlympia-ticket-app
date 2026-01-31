@@ -11,12 +11,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  Feather,
-  FontAwesome,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 
