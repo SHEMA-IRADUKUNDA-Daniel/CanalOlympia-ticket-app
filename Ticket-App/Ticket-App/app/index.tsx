@@ -5,17 +5,38 @@ import {
   Image,
   Dimensions,
   StatusBar,
+  TextInput,
+  Animated,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationBar } from "@/components/navBar";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
+import { useState, useRef } from "react";
 
 const { height } = Dimensions.get("window");
 
 const Index = () => {
   const router = useRouter();
+  const [showSearch, setShowSearch] = useState(false);
+  const searchAnim = useRef(new Animated.Value(0)).current;
+  const handleSearchPress = () => {
+    if (showSearch) {
+      Animated.timing(searchAnim, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+      }).start(() => setShowSearch(false));
+    } else {
+      setShowSearch(true);
+      Animated.timing(searchAnim, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
   return (
     <View className="flex-1">
       <StatusBar barStyle="light-content" />
@@ -60,16 +81,55 @@ const Index = () => {
             </LinearGradient>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <LinearGradient
-            colors={["#FFFBFB", "#BC002E"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            className=" p-3 rounded-full self-center shadow-lg"
-          >
-            <Feather name="search" size={24} color="white" />
-          </LinearGradient>
-        </TouchableOpacity>
+        <Animated.View
+          style={{
+            width: searchAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [50, 300],
+            }),
+            borderRadius: searchAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [25, 30],
+            }),
+            overflow: "hidden",
+          }}
+        >
+          {showSearch ? (
+            <LinearGradient
+              colors={["#FFFBFB", "#BC002E"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              className="p-3 flex-row  items-center justify-center"
+            >
+              <BlurView
+                intensity={40}
+                tint="light"
+                className="absolute inset-0"
+              />
+              <Feather name="search" size={24} color="white" />
+              <TextInput
+                autoFocus
+                placeholder="Search your favorite movie..."
+                placeholderTextColor="white"
+                className=" px-3 text-black font-roboto-bold text-base"
+              />
+              <TouchableOpacity onPress={handleSearchPress}>
+                <Feather name="x" size={24} color="white" />
+              </TouchableOpacity>
+            </LinearGradient>
+          ) : (
+            <TouchableOpacity onPress={handleSearchPress}>
+              <LinearGradient
+                colors={["#FFFBFB", "#BC002E"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                className=" p-3 rounded-full self-center shadow-lg"
+              >
+                <Feather name="search" size={24} color="white" />
+              </LinearGradient>
+            </TouchableOpacity>
+          )}
+        </Animated.View>
       </View>
       <View className="flex-1 justify-end px-3 ">
         <View className="flex-row justify-between ">

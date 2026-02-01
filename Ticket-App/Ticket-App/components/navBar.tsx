@@ -1,6 +1,9 @@
 import { View, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
 export const NavigationBar = () => {

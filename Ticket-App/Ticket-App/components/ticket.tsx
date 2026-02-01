@@ -3,8 +3,9 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
+import { TicketProps } from "@/interface";
 
-const Ticket = () => {
+const Ticket = ({ onDelete }: TicketProps) => {
   const [showDeleteMenu, setShowDeleteMenu] = useState(false);
   return (
     <LinearGradient
@@ -27,7 +28,10 @@ const Ticket = () => {
         </TouchableOpacity>
       </View>
       {showDeleteMenu && (
-        <TouchableOpacity className="absolute top-12 right-0 bg-primary/50 p-4 rounded-full transition-all shadow-lg shadow-black z-10">
+        <TouchableOpacity
+          onPress={onDelete}
+          className="absolute top-12 right-0 bg-primary/50 p-4 rounded-full transition-all shadow-lg shadow-black z-10"
+        >
           <Text className="text-white font-poppins-bold text-xs ">
             Delete ticket
           </Text>
