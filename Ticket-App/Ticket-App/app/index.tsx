@@ -142,6 +142,7 @@ const Index = () => {
             </Text>
           </View>
           <TouchableOpacity
+            onPress={() => router.push("/explore")}
             activeOpacity={0.8}
             style={{
               shadowColor: "#BC002D",
