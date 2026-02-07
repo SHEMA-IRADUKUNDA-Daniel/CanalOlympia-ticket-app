@@ -13,7 +13,8 @@ import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationBar } from "@/components/navBar";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useMovieStore } from "@/store";
 
 const { height } = Dimensions.get("window");
 
@@ -37,12 +38,21 @@ const Index = () => {
       }).start();
     }
   };
+
+  const featuredMovie = useMovieStore((state) => state.featuredMovie);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      useMovieStore.getState().nextMovie();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <View className="flex-1">
       <StatusBar barStyle="light-content" />
 
       <Image
-        source={require("../assets/images/Avatar.jpg")}
+        source={featuredMovie.image}
         className="absolute w-full"
         style={{ height: height }}
         resizeMode="cover"
@@ -62,7 +72,7 @@ const Index = () => {
         <TouchableOpacity onPress={() => router.push("/notification")}>
           <View className="rounded-full overflow-hidden shadow-lg">
             <LinearGradient
-              colors={["#FFFBFB", "#BC002E"]}
+              colors={["#0D1F42", "#BC002E"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               className="p-3 items-center justify-center"
@@ -96,7 +106,7 @@ const Index = () => {
         >
           {showSearch ? (
             <LinearGradient
-              colors={["#FFFBFB", "#BC002E"]}
+              colors={["#0D1F42", "#BC002E"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               className="p-3 flex-row  items-center justify-center"
@@ -120,7 +130,7 @@ const Index = () => {
           ) : (
             <TouchableOpacity onPress={handleSearchPress}>
               <LinearGradient
-                colors={["#FFFBFB", "#BC002E"]}
+                colors={["#0D1F42", "#BC002E"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 className=" p-3 rounded-full self-center shadow-lg"
@@ -132,17 +142,21 @@ const Index = () => {
         </Animated.View>
       </View>
       <View className="flex-1 justify-end px-3 ">
-        <View className="flex-row justify-between ">
+        <View className="flex-row items-center justify-between mb-3">
           <View>
-            <Text className="text-white  text-3xl font-poppins-bold ">
-              AVATAR:
+            <Text className="text-white  text-2xl font-poppins-bold ">
+              {featuredMovie.title}
             </Text>
-            <Text className="text-white font-poppins-bold text-3xl  mb-4">
-              Fire and Ash
+            <Text className="text-white font-poppins-bold text-2xl   mb">
+              {featuredMovie.subtitle}
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => router.push("/explore")}
+            onPress={() =>
+              setTimeout(() => {
+                router.push("/explore");
+              }, 800)
+            }
             activeOpacity={0.8}
             style={{
               shadowColor: "#BC002D",
@@ -168,28 +182,19 @@ const Index = () => {
           </TouchableOpacity>
         </View>
 
-        <Text className="text-white/90 font-roboto text-base leading-6 mb-4 w-3/4">
-          Jake and Neytiri&apos;s family grapples with grief after
-          Neteyam&apos;s death, encountering a new, aggressive Na&apos;vi tribe,
-          the Ash People, who are led by the fiery Varang, as the conflict on
-          Pandora escalates and a new moral focus emerges.
+        <Text className="text-white/90 font-roboto text-sm mb-3 w-3/4">
+          {featuredMovie.description}
         </Text>
 
-        <View className="flex-row flex-wrap gap-2 mb-6">
-          <View className="bg-primary px-2 py-1.5 rounded-full border border-white/30">
-            <Text className="text-white text-xs font-medium">Action</Text>
-          </View>
-          <View className="bg-primary px-2 py-1.5 rounded-full border border-white/30">
-            <Text className="text-white text-xs font-medium">Fantasy</Text>
-          </View>
-          <View className="bg-primary px-2 py-1.5 rounded-full border border-white/30">
-            <Text className="text-white text-xs font-medium">
-              Science Fiction
-            </Text>
-          </View>
-          <View className="bg-primary px-2 py-1.5 rounded-full border border-white/30">
-            <Text className="text-white text-xs font-medium">Adventure</Text>
-          </View>
+        <View className="flex-row flex-wrap gap-2 mb-10">
+          {featuredMovie.genres.map((genre) => (
+            <View
+              key={genre}
+              className="bg-primary px-2 py-1.5 rounded-full border border-white/30"
+            >
+              <Text className="text-white text-xs font-medium">{genre}</Text>
+            </View>
+          ))}
         </View>
       </View>
       <NavigationBar />
