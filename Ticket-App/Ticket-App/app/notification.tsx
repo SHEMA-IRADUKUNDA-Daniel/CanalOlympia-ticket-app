@@ -43,9 +43,8 @@ const Notification = () => {
       <View className="flex-1  justify-center items-center">
         <MaterialCommunityIcons
           name="bell-off-outline"
-          size={150}
+          size={100}
           color="#BC002E"
-          className="mb-4"
         />
         <Text className="text-white mt-10 pb-20  font-poppins-600 font-bold text-center text-sm">
           You don&apos;t have any notifications yet.
