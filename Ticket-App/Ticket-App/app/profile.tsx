@@ -1,4 +1,12 @@
-import { View, Switch, StatusBar, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Switch,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
@@ -6,6 +14,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 import { NavigationBar } from "@/components/navBar";
 import { useRouter } from "expo-router";
@@ -15,6 +24,29 @@ const Profile = () => {
   const [announcements, setAnnouncements] = useState(false);
 
   const router = useRouter();
+
+  const [imageUri, setImageUri] = useState<string | null>(null);
+
+  // Ask permission first
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission required to access your photos!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -36,10 +68,21 @@ const Profile = () => {
       </Text>
       <View className=" flex-1 px-3">
         <View className="items-center justify-center self-center">
-          <View className="items-center justify-center bg-primary rounded-full w-24 h-24">
-            <MaterialIcons name="account-circle" size={40} color="white" />
-          </View>
-          <TouchableOpacity className="absolute bottom-0 right-0 bg-white rounded-full w-8 h-8 items-center justify-center">
+          {imageUri ? (
+            <Image
+              source={{ uri: imageUri }}
+              className="w-24 h-24 rounded-full"
+            />
+          ) : (
+            <View className="items-center justify-center bg-primary rounded-full w-24 h-24">
+              <MaterialIcons name="account-circle" size={40} color="white" />
+            </View>
+          )}
+
+          <TouchableOpacity
+            onPress={pickImage}
+            className="absolute bottom-0 right-0 bg-white rounded-full w-8 h-8 items-center justify-center"
+          >
             <MaterialIcons name="camera-alt" size={18} color="#1e3a5f" />
           </TouchableOpacity>
         </View>
@@ -107,11 +150,18 @@ const Profile = () => {
           </View>
         </View>
         <TouchableOpacity
-          className="flex-row justify-evenly align-center bg-primary mx-10 p-3 items-center px-4 mt-10 rounded-full shadow-lg"
+          className="flex-row justify-center  bg-primary   items-center  mt-10 rounded-full shadow-lg"
           onPress={() => router.push("/login")}
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 24,
+            marginHorizontal: 40,
+          }}
         >
           <MaterialIcons name="logout" size={24} color="#BC002E" />
-          <Text className="text-white   font-roboto-medium   ">Logout</Text>
+          <Text className="text-white   font-roboto-medium  ml-8 text-base">
+            Logout
+          </Text>
         </TouchableOpacity>
       </View>
       <View className="flex-1 justify-end ">
