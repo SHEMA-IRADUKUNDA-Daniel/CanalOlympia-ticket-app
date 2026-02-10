@@ -38,23 +38,57 @@ const Index = () => {
       }).start();
     }
   };
-
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const intervalRef = useRef(null);
   const featuredMovie = useMovieStore((state) => state.featuredMovie);
+  const [displayedMovie, setDisplayedMovie] = useState(featuredMovie);
+
   useEffect(() => {
+    if (featuredMovie.image === displayedMovie.image) return;
+
+    Image.prefetch(Image.resolveAssetSource(featuredMovie.image).uri).then(
+      () => {
+        setDisplayedMovie(featuredMovie);
+      },
+    );
+  }, [featuredMovie, displayedMovie]);
+  useEffect(() => {
+    if (intervalRef.current) return;
+
     const interval = setInterval(() => {
       useMovieStore.getState().nextMovie();
-    }, 10000);
+    }, 6000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      intervalRef.current = null;
+    };
   }, []);
+  const didMount = useRef(false);
+  useEffect(() => {
+    if (didMount.current) return;
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 350,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [displayedMovie, fadeAnim]);
+
   return (
     <View className="flex-1">
       <StatusBar barStyle="light-content" />
 
-      <Image
-        source={featuredMovie.image}
+      <Animated.Image
+        source={displayedMovie.image}
         className="absolute w-full"
-        style={{ height: height }}
+        style={{ height: height, opacity: fadeAnim }}
         resizeMode="cover"
       />
 
@@ -145,10 +179,10 @@ const Index = () => {
         <View className="flex-row items-center justify-between mb-3">
           <View>
             <Text className="text-white  text-2xl font-poppins-bold ">
-              {featuredMovie.title}
+              {displayedMovie.title}
             </Text>
             <Text className="text-white font-poppins-bold text-2xl   mb">
-              {featuredMovie.subtitle}
+              {displayedMovie.subtitle}
             </Text>
           </View>
           <TouchableOpacity
@@ -183,11 +217,11 @@ const Index = () => {
         </View>
 
         <Text className="text-white/90 font-roboto text-sm mb-3 w-3/4">
-          {featuredMovie.description}
+          {displayedMovie.description}
         </Text>
 
         <View className="flex-row flex-wrap gap-2 mb-10">
-          {featuredMovie.genres.map((genre) => (
+          {displayedMovie.genres.map((genre) => (
             <View
               key={genre}
               className="bg-primary px-2 py-1.5 rounded-full border border-white/30"
