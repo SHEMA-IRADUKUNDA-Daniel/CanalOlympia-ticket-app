@@ -23,3 +23,12 @@ export type MovieState = {
   currentIndex: number;
   nextMovie: () => void;
 };
+
+export type datesType = {
+  day: string;
+  date: string;
+  className?: string;
+};
+export type dashboardMoviesType = {
+  id: string;
+};
