@@ -14,7 +14,7 @@ import { dashboardMoviesType } from "@/interface";
 import DashMovieCard from "@/components/dashMovieCard";
 
 const TABS = ["Showing now", "Upcoming"];
-const Tickets = () => {
+const Explore = () => {
   const [activeTab, setActiveTab] = useState("Showing now");
   const [ShowingMovies, setShowingMovies] = useState<dashboardMoviesType[]>([
     { id: "1" },
@@ -117,4 +117,4 @@ const Tickets = () => {
   );
 };
 
-export default Tickets;
+export default Explore;
