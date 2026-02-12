@@ -53,7 +53,7 @@ export type SeatProps = {
 
 export type ButtonProps = {
   name: string;
-  text: string;
+  amount: number | string;
   onPress?: () => void;
   className?: string;
 };
