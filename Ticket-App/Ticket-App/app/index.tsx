@@ -188,7 +188,7 @@ const Index = () => {
           <TouchableOpacity
             onPress={() =>
               setTimeout(() => {
-                router.push("/explore");
+                router.push("/seats");
               }, 800)
             }
             activeOpacity={0.8}

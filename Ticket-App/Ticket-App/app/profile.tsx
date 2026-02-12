@@ -4,7 +4,6 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  Alert,
   Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
