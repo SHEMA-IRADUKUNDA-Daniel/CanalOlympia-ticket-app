@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { datesType } from "@/interface";
 
 const Dates = ({ date, day, className }: datesType) => {
