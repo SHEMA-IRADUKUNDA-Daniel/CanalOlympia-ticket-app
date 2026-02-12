@@ -109,7 +109,11 @@ const Seats = () => {
       </View>
       {selectedSeats.length > 0 && (
         <View className="px-3">
-          <Button name="Pay" amount={totalAmount} />
+          <Button
+            name="Pay"
+            amount={totalAmount}
+            onPress={() => route.push("/payments")}
+          />
         </View>
       )}
     </View>
