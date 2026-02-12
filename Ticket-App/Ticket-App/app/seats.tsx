@@ -33,7 +33,13 @@ const Seats = () => {
 
       <View className="flex-row px-4 pt-20 justify-between items-center">
         <BackButton onPress={() => route.push("/")} />
-        <TouchableOpacity onPress={() => setSelectedSeats([])}>
+        <TouchableOpacity
+          onPress={() => {
+            setTimeout(() => {
+              setSelectedSeats([]);
+            }, 2000);
+          }}
+        >
           <Feather name="refresh-cw" size={26} color="white" />
         </TouchableOpacity>
       </View>
